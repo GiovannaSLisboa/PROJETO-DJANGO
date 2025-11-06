@@ -1,0 +1,22 @@
+.hero-banner {
+  height: 100vh; /* altura média, pode ajustar para 25vh ou 35vh */
+  position: relative;
+  overflow: hidden;
+  border-radius: 0 0 1.5rem 1.5rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(85%);
+}
+
+.card, .bg-light, .bg-white {
+  border-radius: 1rem !important;
+}
+
+hr {
+  opacity: 0.2;
+}

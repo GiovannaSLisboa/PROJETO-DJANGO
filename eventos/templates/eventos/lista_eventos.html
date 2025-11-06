@@ -7,6 +7,11 @@
 <h1 class="mb-4 text-center text-primary">🎉 Próximos Eventos 🎉</h1>
 <hr>
 
+<form method="get" class="mb-4 d-flex justify-content-center">
+  <input type="text" name="q" class="form-control w-50 me-2" placeholder="Buscar eventos...">
+  <button class="btn btn-primary">Buscar</button>
+</form>
+
 <div class="row">
     
     {% for evento in eventos %}
@@ -39,6 +44,10 @@
                     </span>
                     <a href="{% url 'detalhe_evento' evento.pk %}" class="btn btn-primary btn-sm float-end">Ver Detalhes</a>
                 </div>
+                <span class="position-absolute top-0 start-0 badge bg-warning text-dark m-2">
+                    Novo
+                </span>
+
             </div>
         </div>
     </div>
