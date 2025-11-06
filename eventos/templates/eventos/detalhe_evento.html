@@ -4,6 +4,9 @@
 {% block title %}{{ evento.titulo }}{% endblock %}
 
 {% block content %}
+
+
+
 <div class="row">
     <div class="col-12 col-lg-4 mb-4">
         
@@ -48,6 +51,9 @@
     </div>
 </div>
 
+{% endblock content %}
+
+{% block extra_modals %}
 <div class="modal fade" id="modalCompra" tabindex="-1" aria-labelledby="modalCompraLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -55,8 +61,49 @@
         <h5 class="modal-title" id="modalCompraLabel">Comprar Ingressos para {{ evento.titulo }}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+      
       <div class="modal-body">
-        <p class="text-info">Aqui seria o formulário de seleção e compra de ingressos (será desenvolvido em seguida).</p>
+          <p class="text-muted small">Selecione o tipo e a quantidade de ingressos que deseja comprar. O estoque é limitado.</p>
+          
+          {% if evento.ingresso_set.all %}
+              {% for ingresso in evento.ingresso_set.all %}
+                  <div class="p-3 mb-2 border rounded {% if ingresso.quantidade_disponivel <= 0 %}bg-light-subtle{% endif %}">
+                      <div class="d-flex justify-content-between align-items-center">
+                          <div>
+                              <strong class="text-primary">{{ ingresso.tipo|capfirst }}</strong>
+                              <p class="mb-0 small">R$ {{ ingresso.preco|floatformat:2 }}</p>
+                          </div>
+                          
+                          {% if ingresso.quantidade_disponivel > 0 %}
+                            <form action="{% url 'comprar_ingresso' ingresso_pk=ingresso.pk %}" method="post" class="d-flex align-items-center">
+                                {% csrf_token %}
+                                
+                                <div class="input-group me-2" style="width: 120px;">
+                                    <span class="input-group-text small">Qtd</span>
+                                    <input type="number" 
+                                           class="form-control form-control-sm" 
+                                           name="quantidade" 
+                                           min="1" 
+                                           max="{{ ingresso.quantidade_disponivel }}" 
+                                           value="1" 
+                                           required>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-success btn-sm">
+                                    Comprar
+                                </button>
+                            </form>
+                          {% else %}
+                            <span class="badge bg-danger">Esgotado</span>
+                          {% endif %}
+                      </div>
+                      <p class="mt-2 mb-0 small text-muted">Estoque: {{ ingresso.quantidade_disponivel }} restantes</p>
+                  </div>
+              {% endfor %}
+          {% else %}
+              <p class="text-center text-warning">Atenção: Nenhum tipo de ingresso foi cadastrado para este evento.</p>
+          {% endif %}
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
@@ -64,4 +111,5 @@
     </div>
   </div>
 </div>
-{% endblock content %}
+{% endblock extra_modals %}
+```eof
