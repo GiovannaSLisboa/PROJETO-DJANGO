@@ -1,6 +1,16 @@
 from django.contrib import admin
 from .models import Categoria, Local, Evento, Ingresso, Compra
 
+admin.site.site_header = "Painel Administrativo"
+admin.site.site_title = "Administração"
+admin.site.index_title = "Bem-vindo(a) ao Painel de Controle"
+
+# Incluir o CSS customizado
+class CustomAdminSite(admin.AdminSite):
+    class Media:
+        css = {
+            'all': ('admin/custom_admin.css',)
+        }
 
 @admin.register(Categoria)
 class CategoriaAdmin(admin.ModelAdmin):

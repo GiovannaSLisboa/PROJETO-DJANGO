@@ -12,7 +12,7 @@ def lista_eventos(request):
         'eventos': eventos
     }
     # ATENÇÃO: O caminho DEVE ser 'eventos/lista_eventos.html'
-    return render(request, 'eventos/lista_eventos.html', context)
+    return render(request, 'client/lista_eventos.html', context)
 
 # 2. View de Detalhe
 def detalhe_evento(request, pk):
@@ -20,7 +20,7 @@ def detalhe_evento(request, pk):
     context = {
         'evento': evento
     }
-    return render(request, 'eventos/detalhe_evento.html', context)
+    return render(request, 'client/detalhe_evento.html', context)
 
 @login_required
 def comprar_ingresso(request, ingresso_pk):

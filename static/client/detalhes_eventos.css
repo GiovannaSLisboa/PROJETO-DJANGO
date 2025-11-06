@@ -1,5 +1,5 @@
 .hero-banner {
-  height: 100vh; /* altura média, pode ajustar para 25vh ou 35vh */
+  height: 100vh; 
   position: relative;
   overflow: hidden;
   border-radius: 0 0 1.5rem 1.5rem;
