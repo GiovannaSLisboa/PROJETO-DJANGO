@@ -1,10 +1,12 @@
 {% extends 'base.html' %} 
 {% load static %}
-{% load humanize %} {% block title %}Próximos Eventos{% endblock %}
+{% load humanize %}
+
+{% block title %}Próximos Eventos{% endblock %}
 
 {% block content %}
 
-<h1 class="mb-4 text-center text-primary">🎉 Próximos Eventos 🎉</h1>
+<h1 class="mb-4 text-center text-primary">Próximos Eventos</h1>
 <hr>
 
 <form method="get" class="mb-4 d-flex justify-content-center">
@@ -12,51 +14,73 @@
   <button class="btn btn-primary">Buscar</button>
 </form>
 
-<div class="row">
-    
-    {% for evento in eventos %}
+{% if eventos %}
+<div id="eventosCarousel" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
 
-    <div class="col-12 col-md-6 col-lg-4 mb-4">
-        
-        <div class="card shadow-sm h-100">
+    {% for evento in eventos %}
+      {% if forloop.first %}
+      <div class="carousel-item active">
+      {% elif forloop.counter0|divisibleby:3 %}
+      <div class="carousel-item">
+      {% endif %}
+
+      {% if forloop.counter0|divisibleby:3 %}
+      <div class="row justify-content-center">
+      {% endif %}
+
+        <div class="col-12 col-md-6 col-lg-4 mb-4">
+          <div class="card shadow-sm h-100 border-0 rounded-4 overflow-hidden position-relative">
             
             {% if evento.imagem %}
-            <img src="{{ evento.imagem.url }}" class="card-img-top" alt="{{ evento.titulo }}" style="height: 200px; object-fit: cover;">
+            <img src="{{ evento.imagem.url }}" class="card-img-top" alt="{{ evento.titulo }}" style="height: 220px; object-fit: cover;">
             {% else %}
-            <div class="bg-light text-center py-5" style="height: 200px; line-height: 100px;">
-                <p class="text-muted">Sem Imagem</p>
+            <div class="bg-light text-center py-5" style="height: 220px;">
+              <p class="text-muted">Sem Imagem</p>
             </div>
             {% endif %}
 
-            <div class="card-body d-flex flex-column">
-                <h5 class="card-title text-dark">{{ evento.titulo }}</h5>
-                
-                <p class="card-text small mb-1">
-                    <i class="bi bi-calendar"></i> **{{ evento.data_evento|date:"d/m/Y H:i" }}**
-                </p>
-                <p class="card-text small text-muted mb-3">
-                    <i class="bi bi-geo-alt"></i> {{ evento.local.nome }}
-                </p>
+            <div class="card-body d-flex flex-column p-4">
+              <h5 class="card-title fw-bold text-dark">{{ evento.titulo }}</h5>
+              <p class="card-text small mb-1"><i class="bi bi-calendar"></i> {{ evento.data_evento|date:"d/m/Y H:i" }}</p>
+              <p class="card-text small text-muted mb-3"><i class="bi bi-geo-alt"></i> {{ evento.local.nome }}</p>
 
-                <div class="mt-auto pt-2 border-top">
-                    <span class="badge bg-success fs-6">
-                        A partir de R$ {{ evento.preco_base|floatformat:2|default:"0,00" }}
-                    </span>
-                    <a href="{% url 'detalhe_evento' evento.pk %}" class="btn btn-primary btn-sm float-end">Ver Detalhes</a>
-                </div>
-                <span class="position-absolute top-0 start-0 badge bg-warning text-dark m-2">
-                    Novo
+              <div class="mt-auto pt-2 border-top">
+                <span class="badge bg-success fs-6">
+                  A partir de R$ {{ evento.preco_base|floatformat:2|default:"0,00" }}
                 </span>
+                <a href="{% url 'detalhe_evento' evento.pk %}" class="btn btn-primary btn-sm float-end">Ver Detalhes</a>
+              </div>
 
+              <span class="position-absolute top-0 start-0 badge bg-warning text-dark m-2 shadow">Novo</span>
             </div>
+          </div>
         </div>
-    </div>
-    
-    {% empty %}
-    <div class="col-12">
-        <p class="alert alert-warning text-center">Nenhum evento agendado no momento. <a href="{% url 'admin:index' %}">Adicione um no Admin.</a></p>
-    </div>
+
+      {% if forloop.counter|divisibleby:3 or forloop.last %}
+      </div>
+      </div>
+      {% endif %}
     {% endfor %}
 
+  </div>
+
+  <button class="carousel-control-prev" type="button" data-bs-target="#eventosCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon bg-dark rounded-circle p-3" aria-hidden="true"></span>
+    <span class="visually-hidden">Anterior</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#eventosCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon bg-dark rounded-circle p-3" aria-hidden="true"></span>
+    <span class="visually-hidden">Próximo</span>
+  </button>
 </div>
+
+{% else %}
+  <div class="col-12">
+    <p class="alert alert-warning text-center">
+      Nenhum evento agendado no momento. <a href="{% url 'admin:index' %}">Adicione um no Admin.</a>
+    </p>
+  </div>
+{% endif %}
+
 {% endblock content %}
