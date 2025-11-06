@@ -3,17 +3,7 @@
 {% load humanize %} {% block title %}Próximos Eventos{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>Eventos Disponíveis</h1>
-        <a href="{% url 'criar_evento' %}" class="btn btn-success btn-lg shadow-sm">
-            <i class="bi bi-plus-circle-fill me-2"></i> Criar Novo Evento
-        </a>
-    </div>
 
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        {% for evento in eventos %}
-            {% endfor %}
-    </div>
 <h1 class="mb-4 text-center text-primary">🎉 Próximos Eventos 🎉</h1>
 <hr>
 
