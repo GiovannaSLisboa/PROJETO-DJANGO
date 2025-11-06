@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Ticket One</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="{% static 'login_user/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'login_user/css/media.css' %}">
+</head>
+<body>s
+  <div id="container">
+    <div class="banner">
+      <img src="{% static 'login_user/login2.png' %}" alt="imgLogin" style="width:440px;height:440px;">
+      <div class="footer">
+        <h1 style="color:#fafafa;">Bem-vindo(a) à Ticket One</h1>
+      </div>
+    </div>
+
+    <div class="box-login">
+      <center><h1>Olá!</h1></center>
+      <h2>Seja Bem Vindo !!!</h2>
+
+      <form class="box" method="post" action="{{ request.path }}">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}">
+        <input type="hidden" name="this_is_the_login_form" value="1">
+
+        <h2>Faça o seu login agora</h2>
+
+        <input type="text" name="username" id="username" placeholder="Email"
+               value="{{ form.username.value|default:'' }}" required autofocus>
+        <input type="password" name="password" id="password" placeholder="Senha" required>
+
+        {% if form.non_field_errors %}
+          <div style="color:#b00020; margin:8px 0;">
+            {{ form.non_field_errors }}
+          </div>
+        {% endif %}
+
+        <button type="submit">Login</button>
+
+        <a href="#"><p>Criar uma conta</p></a>
+
+        <div class="social">
+          <a href="https://www.facebook.com/">
+            <img src="{% static 'login_user/img/facebook.png' %}" alt="facebook">
+          </a>
+          <a href="https://gmail.com/">
+            <img src="{% static 'login_user/img/google.png' %}" alt="google">
+          </a>
+          <a href="https://github.com/">
+            <img src="{% static 'login_user/img/github.png' %}" alt="github">
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

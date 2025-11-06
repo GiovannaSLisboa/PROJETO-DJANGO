@@ -1,10 +1,13 @@
+# meuseventos/urls.py
+
 from django.contrib import admin
 from django.urls import path, include
-from django.conf import settings # Importe settings
-from django.conf.urls.static import static # Importe static
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', include('eventos.urls')),
+    # APONTA A RAIZ DO SITE PARA AS ROTAS DO SEU APP 'eventos'
+    path('', include('eventos.urls')), 
     path('admin/', admin.site.urls),
 ]
 
